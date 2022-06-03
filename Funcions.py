@@ -26,17 +26,18 @@ def Euler(*arg):
         l'Euler simple.
 
     '''
+    # Per a l'Euler Millorat
     if arg == 'EulerMillorat' or 1:
-        EulerMillorat = lambda CI, x, y, h, f: CI + (h/2)*(f(h,x,y) + f(h, x + h, y + h*f(h,x,y))) 
-        return EulerMillorat
-    
+        return lambda CI, x, y, h, f: CI + (h/2)*(f(h,x,y) + f(h, x + h, y + h*f(h,x,y))) 
+        
+    # Per a l'Euler Modificat
     elif arg == 'EulerModificat' or 2:
-        EulerModificat = lambda CI, x, y, h, f: CI + h*f(h, x + h/2, y + (h/2)*f(h, x,y) )
-        return EulerModificat
+        return lambda CI, x, y, h, f: CI + h*f(h, x + h/2, y + (h/2)*f(h, x,y) )
     
+    # Per a l'Euler Simple
     else:
-        EulerSimple = lambda CI, x, y, h, f: CI + h*f(h, x, y)
-        return EulerSimple
+        return lambda CI, x, y, h, f: CI + h*f(h, x, y)
+        
     
 
 def RK(f, x0, y0, h, CI): 
