@@ -51,12 +51,10 @@ for i in tqdm(range(len(t))):
     if v1[i] >= 30:
         v1[i] = c
         u1[i] += d
-        r1[i] += 0.5
         
     if v2[i] >= 30:
         v2[i] = c
         u2[i] += d
-        r2[i] += 0.5
         
         
 plt.figure(dpi=300)

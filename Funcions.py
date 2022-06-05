@@ -170,3 +170,22 @@ def RK2(f, g, t0, x0, v0, h):
     SolG = v0 + h*( (16 / 135)*g0 + (6656 / 12825)*g2 + (28561 / 56430)*g3 - (9 / 50)*g4 + (2 / 55)*g5)
     
     return SolF, SolG
+
+def NovaSubcarpeta(nomSubcarpeta = 'Subfolder'):
+    '''
+    Aquesta funció generarà una subcarpeta del nom especificat
+    en cas de que no existeixi.
+    
+    Retorna la localització d'aquesta subcarpeta.
+    '''
+    
+    import os
+    
+    # Per a trobar el dirrectori complet d'aquest arxiu python
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    
+    # Per a crear una subcarpeta en aquest nou directori
+    os.makedirs(dir_path + '/' + nomSubcarpeta, exist_ok=True) 
+    
+    # Retornam el directori complet de la nova subcarpeta
+    return os.path.realpath(nomSubcarpeta)
