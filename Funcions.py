@@ -189,3 +189,72 @@ def NovaSubcarpeta(nomSubcarpeta = 'Subfolder'):
     
     # Retornam el directori complet de la nova subcarpeta
     return os.path.realpath(nomSubcarpeta)
+
+def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue", 
+              path = None, guardar = False, title = None):
+    '''
+    Funció per a representar un únic gràfic.
+
+    Parameters
+    ----------
+    x : ARRAY
+        Valors que representar en l'eix x.
+    y : ARRAY
+        Valors que representar en l'eix y.
+    ylabel : STRING, optional
+        Nom de l'eix y. The default is "V (mV)".
+    xlabel : STRING, optional
+        Nom de l'eix x. The default is "t (ms)".
+    color : STRING or LIST, optional
+        Assignar un valor vàlid per a definir els
+        colors del gràfic. The default is "blue".
+    path : STRING, optional
+        Nom de la subcarpeta on guardar les gràfiques. 
+        De no ésser especificat, se guardaran en la mateixa subcarpeta
+        The default is None.
+    guardar : Boolean, optional
+        Si volem guardar les gràfiques generades. The default is None.
+    title : STRING, optional
+        Titol que posar a les gràfiques o nom de les
+        gràfiques guardades. Necesari per poder guardar les gràfiques
+        The default is None.
+
+    Returns
+    -------
+    None.
+
+    '''
+    
+    import matplotlib.pyplot as plt
+    
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
+    
+    ax.plot(x, y, c=color)
+    ax.tick_params(axis='both', labelsize = 12)
+    
+    ax.set_ylabel(ylabel, fontsize = 14)
+    ax.set_xlabel(xlabel, fontsize = 14)
+    
+    if title and not guardar:
+        ax.set_title(title, fontsize = 20)
+    
+    ax.yaxis.get_ticklocs(minor=True)
+    ax.yaxis.set_ticks_position('both'); 
+    ax.xaxis.set_ticks_position('both')
+    
+    ax.minorticks_on()
+    plt.tight_layout()
+    plt.show()
+    
+    
+    if guardar and title:
+        import re
+        title = re.sub('[. -]','_', title.replace('\n', ''))
+        if path is None:
+            print('Guardant...')
+            fig.savefig( title + '.pdf', dpi = 400)
+            
+        else:
+            print('Guardant a directori especificat!')
+            path = NovaSubcarpeta(path)
+            fig.savefig( path + '\\' + title + '.pdf', dpi = 400)
