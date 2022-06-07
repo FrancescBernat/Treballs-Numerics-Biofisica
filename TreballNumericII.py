@@ -6,19 +6,24 @@ Created on Fri Jun  3 12:41:13 2022
 """
 
 import numpy as np
-# from tqdm import tqdm
 from Funcions import *
 from functools import partial
 
+# Per si volem desactivar els gràfics o guardar els gràfics
+Grafics, guardar = True, False
+
+# Nom de la carpeta on guardarem els nostres gràfics
+NomPath = "Resultats_Treball_2"
+
 # Definim l'interval de temps
-t0 = 0;         tf = 200;         h = 5e-3
+t0 = 0;         tf = 150;         h = 5e-3 # h és el pas d'integració
 t = np.arange(t0, int(tf), h)
 
-# Definim les condicions inicials
-
-I0 = 15
+# Definim algunes condicions inicials
+I0 = 15; a = 0.02
 
 # Definim les funcions que anirem a usar
+
 def dr(i, r, v, tau=5.6):
     if v > 30:  return -r/tau + 0.5 
     
@@ -27,6 +32,7 @@ def dr(i, r, v, tau=5.6):
 Ic = lambda r, v, E, gmax = 0.1 :  gmax * r * (v - E) # Intensitat conectora
 
 dv = lambda t, v, u, Ic, I = I0 : 0.04*v**2 + 5*v + 140 - u + I + Ic
+
 du = lambda t, v, u, a, b : a*(b*v-u)
 
 # Assignam les array on guardarem les dades
@@ -36,28 +42,30 @@ v1, u2, v2, r12, r21 = map(np.copy, [u1]*5)
 # Condicions inicials dels resultats
 v1[0] = v2[0] = - 70
 
-# r12[0] = r21[0] = 0.5
+apartat = 0 # Per guardar el nom de l'apartat on esteim
 
-a = 0.02;   
-
-apartat = 0
+# Iteram per a les 2 variacions de dades
 for b, c, d in zip([0.2,0.25], [-65,-50], [8,2]):
 
     apartat += 1
     
     du = partial(du, a=a, b=b)
     
+    # Iteram per 2 variacions de les condicions inicials
     for u10, u20 in zip([-2, -2.5], [-1, -2.5]):
         
         u1[0] = u10;    u2[0] = u20
         
+        nn = -1
         for I12, I21, titol in zip([None, None, 0, -65], [0, -65, 0, -65], 
                                    ["Unidireccional excitatorio", 
                                     "Unidireccional inhibitorio",
                                     "Bidireccional excitatorio",
                                     "Bidireccional inhibitorio"]):
-        
-            for i in (range(len(t))):
+            nn += 1
+            
+            
+            for i in (range( len(t) )):
                 
                 if i == 0: # En cas de estar a l'inici, no fer res
                     continue
@@ -65,7 +73,7 @@ for b, c, d in zip([0.2,0.25], [-65,-50], [8,2]):
                 else:
                     
                     ####################################
-                    ### Condició de dispar neurona 1 ###
+                    ### Condició de dispar neurona 1 ### <-- Aixì m'assegur que s'ha tengut en compte a cada passa
                     ####################################
                     if v1[i-1] >= 30:
                         dr1 = partial(dr, v = v1[i-1])
@@ -102,17 +110,41 @@ for b, c, d in zip([0.2,0.25], [-65,-50], [8,2]):
                     v1[i], u1[i] = RK2(dv1, du, i, v1[i-1], u1[i-1], h)
                 
                 
+            # Aquestes linies de codi són per 
             vt = abs(v1 - v2); vt = vt[vt != 0];  
             if sum(vt) == 0: vt = 0
             print(f"\n La diferencia mitjana entre el potencial de les dues " \
-                  f"neurones, pel cas {titol} i condicions de l'apartat {apartat},"\
+                  f"neurones, pel cas {titol} i condicions de l'apartat {apartat}, "\
                   f"és de {round(np.mean(vt), 6)} \n")
                     
            
-            titul_v = f"Potencial de membrana apartat {apartat} \n" + titol
-            titul_u = f"Variable de recuperació apartat {apartat} \n" + titol
-            
-            VarisGrafics(t, v1, v2, title = titul_v)
-            VarisGrafics(t, u1, u2, title = titul_u)
+            if Grafics:
+                
+                # Per saber quina neurona és quina
+                neurona1 = ["excitadora", "inhibitora", "excitadora", "inhibitora"]
+                neurona2 = [None, None, "excitadora", "inhibitora"]
+                
+                # Donam un titol per a cada gràfic
+                titul_v = f"Potencial de membrana apartat" \
+                    f" {apartat} \n" + titol + f"u10={u10} u20={u20}"
+                    
+                titul_u = f"Variable de recuperació apartat " \
+                    f" {apartat} \n" + titol + f"u10={u10} u20={u20}"
+                
+                # Cambiam el tipus de linia, per a poder veure en tot moment
+                # els potencials de les dues neurones
+                if u10 == u20:  line2 = "--"
+                else:   line2 = "-"
+
+                # Representam els resultats                    
+                VarisGrafics(t, v1, v2, title = titul_v, line2 = line2, 
+                             color1="midnightblue", color2="aquamarine", 
+                             path=NomPath, guardar=guardar, 
+                             label1=neurona1[nn], label2=neurona2[nn])
+                
+                VarisGrafics(t, u1, u2, title = titul_u, line2 = line2, 
+                             ylabel="u (mV)", color2="aquamarine", path=NomPath, 
+                             guardar=guardar, label1=neurona1[nn], 
+                             label2=neurona2[nn])
 
   

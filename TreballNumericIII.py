@@ -46,8 +46,8 @@ for b, c in zip([0.01, 1, 0.75, 1.25], [0.01, 1, 1.25, 0.75]):
     
     fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
     
-    ax.plot(P, label='Depredador', color='seagreen')
-    ax.plot(N, label='Pressa', color='skyblue')
+    ax.plot(t, P, label='Depredador', color='seagreen')
+    ax.plot(t, N, label='Pressa', color='skyblue')
     
     ax.set(ylabel=r"Nº d'individus", xlabel="Temps", 
            title=f"Modelo depredador presa\n\n b = {b}, c = {c}")
