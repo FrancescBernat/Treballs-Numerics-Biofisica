@@ -249,7 +249,7 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
     
     if guardar and title:
         import re
-        title = re.sub('[. -]','_', title.replace('\n', ''))
+        title = re.sub('[. =-]','_', title.replace('\n', ''))
         if path is None:
             print('Guardant...')
             fig.savefig( title + '.pdf', dpi = 400)
