@@ -1,5 +1,5 @@
 # Treballs-Numerics-Biofisica
-Resolució dels treballs numérics de l'assignatura de Biofísica 
+Resolució dels treballs numérics de l'assignatura de Biofísica d'un grau de Física
 
 TreballNumericI_part1 --> Simulació d'una única neurona (potencial de membrana i variable de recuperació) usant el model de Izhikevich.
 
