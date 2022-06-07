@@ -88,9 +88,9 @@ def RK(f, x0, y0, h, CI):
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4)
         
     
-    SolO5 = CI + h*( (16 / 135)*f0 + (6656 / 12825)*f2 + (28561 / 56430)*f3 - (9 / 50)*f4 + (2 / 55)*f5) # Solució de 5 ordre
+    Sol = CI + h*( (16 / 135)*f0 + (6656 / 12825)*f2 + (28561 / 56430)*f3 - (9 / 50)*f4 + (2 / 55)*f5) # Solució de 5 ordre
         
-    return SolO5 
+    return Sol 
 
 def RK2(f, g, t0, x0, v0, h):
     '''
