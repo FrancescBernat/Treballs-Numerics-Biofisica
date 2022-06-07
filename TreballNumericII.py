@@ -44,51 +44,63 @@ u2[0] = 0.1*-10; v2[0] = -70
 
 du = partial(du, a=a, b=b)
 
-for i in tqdm(range(len(t))):
-    
-    if i == 0: # En cas de estar a l'inici, no fer res
-        continue
-    
-    else:
+for I12, I21, titol in zip([None, None, 0, -65], [0, -65, 0, -65], 
+                           ["Unidireccional excitatorio", 
+                            "Unidireccional inhibitorio",
+                            "Bidireccional excitatorio",
+                            "Bidireccional inhibitorio"]):
+    # print(I12, I21)
+
+    for i in tqdm(range(len(t))):
         
-        # Condició de dispar neurona 1
-        if v1[i-1] > 30:
-            dr1 = partial(dr, v = v1[i-1])
-            v1[i-1] = c
-            u1[i-1] += d
-            
+        if i == 0: # En cas de estar a l'inici, no fer res
+            continue
+        
         else:
-            dr1 = partial(dr, v = v1[i-1])
             
-        # Condició de dispar neeurona 2 
-        if v2[i-1] > 30:
-            dr2 = partial(dr, v = v2[i-1])
-            v2[i-1] = c
-            u2[i-1] += d
+            ### Condició de dispar neurona 1 ###
+            if v1[i-1] > 30:
+                dr1 = partial(dr, v = v1[i-1])
+                v1[i-1] = c
+                u1[i-1] += d
+                
+            else:
+                dr1 = partial(dr, v = v1[i-1])
+                
+            ### Condició de dispar neeurona 2 ###
+            if v2[i-1] > 30:
+                dr2 = partial(dr, v = v2[i-1])
+                v2[i-1] = c
+                u2[i-1] += d
+                
+            else:
+                dr2 = partial(dr, v = v2[i-1])
             
-        else:
-            dr2 = partial(dr, v = v2[i-1])
+            r12[i] = RK(dr1, i, r12[i-1], h, r12[i-1])
+            r21[i] = RK(dr2, i, r21[i-1], h, r21[i-1])
+            
+            if not I12:
+                dv1 = partial(dv, Ic = 0)
+            else:
+                dv1 = partial(dv, Ic = Ic(r21[i-1], v1[i-1], I12))
+               
+            dv2 = partial(dv, Ic = Ic(r12[i-1], v2[i-1], I21))
+            
+            
+            v2[i], u2[i] = RK2(dv2, du, i, v2[i-1], u2[i-1], h)
+            v1[i], u1[i] = RK2(dv1, du, i, v1[i-1], u1[i-1], h)
         
-        r12[i] = RK(dr1, i, r12[i-1], h, r12[i-1])
-        r21[i] = RK(dr2, i, r21[i-1], h, r21[i-1])
         
-        
-        dv1 = partial(dv, Ic = 0)#Ic(r21[i-1], v1[i-1], -53))
-        dv2 = partial(dv, Ic = Ic(r12[i-1], v2[i-1], -53))
-        
-        v1[i], u1[i] = RK2(dv1, du, i, v1[i-1], u1[i-1], h)
-        v2[i], u2[i] = RK2(dv2, du, i, v2[i-1], u2[i-1], h)
-    
-    
-vt = abs(v1 - v2); vt = vt[vt != 0];  
-if sum(vt) == 0: vt = 0
-print(f"\n La diferencia mitjana entre el potencial de les dues " \
-      f"neurones és de {round(np.mean(vt), 6)}")
-        
-plt.figure(dpi=300)
-plt.plot(v2, '-', label='Neurona 1')
-plt.plot(v1, '-', label='Neurona 2')
-# plt.plot(u1, '-', label='Neurona 1')
-# plt.plot(u2, '--', label='Neurona 2')
-# plt.legend()
-plt.show()
+    vt = abs(v1 - v2); vt = vt[vt != 0];  
+    if sum(vt) == 0: vt = 0
+    print(f"\n La diferencia mitjana entre el potencial de les dues " \
+          f"neurones, pel cas {titol}, és de {round(np.mean(vt), 6)} \n")
+            
+    plt.figure(dpi=300)
+    plt.plot(v2, '-', label='Neurona 1')
+    plt.plot(v1, '-', label='Neurona 2')
+    # plt.plot(u1, '-', label='Neurona 1')
+    # plt.plot(u2, '--', label='Neurona 2')
+    plt.title(titol)
+    # plt.legend()
+    plt.show()
