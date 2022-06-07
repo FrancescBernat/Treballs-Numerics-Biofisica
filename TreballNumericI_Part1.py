@@ -67,6 +67,6 @@ if __name__ == "__main__":
                title=f"Potencial de membrana \n b={b} c={c} d={d}", 
                path=NomPath, guardar=guardar);   l += 1
         
-        Grafic(t, u, color=colors[l],
+        Grafic(t, u, color=colors[l], ylabel="u (mV)",
                title=f"Variable de recuperacio \n b={b} c={c} d={d}", 
                path=NomPath, guardar=guardar);  l += 1

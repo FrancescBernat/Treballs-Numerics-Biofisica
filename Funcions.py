@@ -261,7 +261,7 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
 
 def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue", 
               color2="green", label1 = None, label2 = None, path = None, 
-              guardar = False, title = None):
+              guardar = False, title = None, line1 = "-", line2 = "-"):
     '''
     Funció per a representar dues funcions en un mateix gràfic.
 
@@ -280,6 +280,9 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue",
         colors de cada gràfic. The default is "blue" and "green".
     label1 / label2 : STRING, optional
         Donar un nom a cada funció.
+    line1 / line2 : STRING, optional
+        Per a definir el tipus de linia que volem a cada gràfic.
+        The default is "-"
     path : STRING, optional
         Nom de la subcarpeta on guardar les gràfiques. 
         De no ésser especificat, se guardaran en la mateixa subcarpeta
@@ -301,8 +304,8 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue",
     
     fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
     
-    ax.plot(x, y1, c = color1, label=label1)
-    ax.plot(x, y2, c = color2, label=label2)
+    ax.plot(x, y1, c = color1, label=label1, linestyle=line1)
+    ax.plot(x, y2, c = color2, label=label2, linestyle=line2)
     ax.tick_params(axis='both', labelsize = 12)
     
     ax.set_ylabel(ylabel, fontsize = 14)
@@ -316,7 +319,7 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue",
     ax.xaxis.set_ticks_position('both')
     
     if any([label1, label2]):
-        ax.legend()
+        ax.legend(loc='upper right')
     
     ax.minorticks_on()
     plt.tight_layout()
