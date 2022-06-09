@@ -13,3 +13,12 @@ TreballNumericIII --> Integració de les equacions de Lotka-Volterra, per uns qu
 Els arxius de la "resolució" de cada una d'aquestes pràctiques depenen de l'arxiu Funcions.py, on he inclós funcions important com el mètode de Runge-Kutta.
 El TreballNumericI_part2 també depen del TreballNumericI_part1 per 3 coses, les dues equacions del model i el nom de la carpeta on és guardaran les gràfiques de així
 especificar-ho.
+
+Els altres moduls necessaris, són:
+
+matplotlib, re i os                         --> Funcions.py
+
+matpltolib, numpy i functools               --> TreballNumericI_Part1.py i TreballNumericIII.py
+
+numpy, scipy.signal, functools, tqdm i time --> TreballNumericI_Part2.py
+
