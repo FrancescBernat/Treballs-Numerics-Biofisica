@@ -10,18 +10,14 @@ from Funcions import *
 from functools import partial
 import matplotlib.pyplot as plt
 
-guardar = False
-
 # Definim el nom de la subcarpeta
 NomPath = "Resultats_Treball_1"
 
 # Definim les equacions
-dv = lambda t, v, u, I : 0.04*v**2 + 5*v + 140 - u + I
-du = lambda t, v, u, a, b : a*(b*v-u)
-
-
-if __name__ == "__main__": 
+def dv(t, v, u, I): return 0.04*v**2 + 5*v + 140 - u + I
+def du(t, v, u, a, b): return a*(b*v-u)
     
+def main(dv, du, guardar = False):
     # Definim l'interval de temps
     t0 = 0;         tf = 180;       h = 1e-2 # h és el pas d'integració
     t = np.arange(t0, int(tf), h)
@@ -70,3 +66,6 @@ if __name__ == "__main__":
         Grafic(t, u, color=colors[l], ylabel="u (mV)",
                title=f"Variable de recuperacio \n b={b} c={c} d={d}", 
                path=NomPath, guardar=guardar);  l += 1
+
+if __name__ == "__main__": 
+    main(dv, du)
