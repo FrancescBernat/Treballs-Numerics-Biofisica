@@ -6,21 +6,21 @@ Created on Fri May 27 09:19:53 2022
 """
 
 import numpy as np
-from Funcions import * 
+from Funcions import RK2, NovaSubcarpeta
 from functools import partial
 import matplotlib.pyplot as plt
 
 # Si volem guardar les gràfiques resultants, posar la variable guardar en true
 guardar = False 
 
-# Definim temps inicial, final i pas de temps
+# Temps inicial, final i pas de temps
 t0 = 1; tf = 50; h = 0.005
 
 t = np.arange(t0, tf, h)
 
-# Definim les equacions de Lotka-Volterra
-dN = lambda t, N, P, b, a = 1: N*(a-b*P)
-dP = lambda  t, N, P, c, d = 1: P*(c*N-d)
+# Equacions de Lotka-Volterra
+def dN(t, N, P, b, a = 1): return N*(a-b*P)
+def dP(t, N, P, c, d = 1): return P*(c*N-d)
 
 N = np.zeros(len(t)); P = N.copy()  
 

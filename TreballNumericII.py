@@ -25,15 +25,16 @@ I0 = 15; a = 0.02
 # Definim les funcions que anirem a usar
 
 def dr(i, r, v, tau=5.6):
-    if v > 30:  return -r/tau + 0.5 
-    
-    else:   return -r/tau
+    if v > 30:  
+        return -r/tau + 0.5 
+    else:   
+        return -r/tau
 
-Ic = lambda r, v, E, gmax = 0.1 :  gmax * r * (v - E) # Intensitat conectora
+def Ic(r, v, E, gmax = 0.1): return  gmax * r * (v - E) # Intensitat conectora
 
-dv = lambda t, v, u, Ic, I = I0 : 0.04*v**2 + 5*v + 140 - u + I + Ic
+def dv(t, v, u, Ic, I = I0): return 0.04*v**2 + 5*v + 140 - u + I + Ic
 
-du = lambda t, v, u, a, b : a*(b*v-u)
+def du(t, v, u, a, b): return a*(b*v-u)
 
 # Assignam les array on guardarem les dades
 u1 = np.zeros(len(t));
