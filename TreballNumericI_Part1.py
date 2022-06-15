@@ -6,7 +6,7 @@ Created on Fri May 27 09:19:53 2022
 """
 
 import numpy as np
-from Funcions import *
+from Funcions import RK2, Grafic
 from functools import partial
 import matplotlib.pyplot as plt
 
@@ -15,16 +15,18 @@ NomPath = "Resultats_Treball_1"
 
 # Definim les equacions
 def dv(t, v, u, I): return 0.04*v**2 + 5*v + 140 - u + I
-def du(t, v, u, a, b): return a*(b*v-u)
+def du(t, v, u, a, b): return a*(b*v - u)
     
 def main(dv, du, guardar = False):
+    
     # Definim l'interval de temps
-    t0 = 0;         tf = 180;       h = 1e-2 # h és el pas d'integració
+    t0, tf = 0, 180
+    h = 1e-2 # h és el pas d'integració
     t = np.arange(t0, int(tf), h)
     
     I0 = 15
     
-    a = 0.02; 
+    a = 0.02
     B = [0.2, 0.2, 0.25]
     C = [-50, -55, -65]
     D = [2, 4, 2]
@@ -33,7 +35,8 @@ def main(dv, du, guardar = False):
     u = np.zeros(len(t)); v = u.copy()
     
     # Condicions inicials
-    u[0] = 2; v[0] = 0
+    u[0] = 2
+    v[0] = 0
     
     # Assignam un valor de I constant
     dv = partial(dv, I = I0) 
@@ -46,7 +49,7 @@ def main(dv, du, guardar = False):
     for b, c, d in zip(B, C, D): # Iteram per cada tipus diferent de neurona
         
         # Assignam valors constants per a la funció per a aquesta integració
-        du = partial(du, a=a, b=b) 
+        du = partial(du, a = a, b = b) 
         
         for i in range(len(t)):
             
@@ -61,11 +64,13 @@ def main(dv, du, guardar = False):
         # Representam els resultats
         Grafic(t, v, color=colors[l], 
                title=f"Potencial de membrana \n b={b} c={c} d={d}", 
-               path=NomPath, guardar=guardar);   l += 1
+               path=NomPath, guardar=guardar)
+        l += 1
         
         Grafic(t, u, color=colors[l], ylabel="u (mV)",
                title=f"Variable de recuperacio \n b={b} c={c} d={d}", 
-               path=NomPath, guardar=guardar);  l += 1
+               path=NomPath, guardar=guardar)
+        l += 1
 
 if __name__ == "__main__": 
     main(dv, du)
