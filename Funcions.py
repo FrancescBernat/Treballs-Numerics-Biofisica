@@ -5,6 +5,12 @@ Created on Wed Jun  1 15:37:03 2022
 @author: Francesc Bernat Bieri Tauler
 """
 
+__all__ = ['Euler', 'RK', 'RK2', 'NovaSubcarpeta', 'Grafic', 'VarisGrafics']
+
+import re
+import os
+import matplotlib.pyplot as plt
+
 def Euler(*arg):
     '''
     Funció que retorna el mètode d'Euler i totes les variacions del mètode que
@@ -88,10 +94,10 @@ def RK(f, x0, y0, h, CI):
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4)
         
     
-    SolO5 = CI + h*( (16 / 135)*f0 + (6656 / 12825)*f2 + (28561 / 56430)*f3 \
-                    - (9 / 50)*f4 + (2 / 55)*f5) # Solució de 5 ordre
+    Sol = CI + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 \
+                    - (9/50)*f4 + (2/55)*f5) # Solució de 5 ordre
         
-    return SolO5 
+    return Sol 
 
 def RK2(f, g, t0, x0, v0, h):
     '''
@@ -166,9 +172,11 @@ def RK2(f, g, t0, x0, v0, h):
            v0 - ( (8*h) / 27 )*g0 + (2*h)*g1 - ( (3544*h) / 2565 )*g2  \
            + ( (1859*h) / 4104)*g3 - ((11*h)/40)*g4)
         
-    SolF = x0 + h*( (16 / 135)*f0 + (6656 / 12825)*f2 + (28561 / 56430)*f3 - (9 / 50)*f4 + (2 / 55)*f5)
+    SolF = x0 + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 
+                   - (9/50)*f4 + (2/55)*f5)
     
-    SolG = v0 + h*( (16 / 135)*g0 + (6656 / 12825)*g2 + (28561 / 56430)*g3 - (9 / 50)*g4 + (2 / 55)*g5)
+    SolG = v0 + h*( (16/135)*g0 + (6656/12825)*g2 + (28561/56430)*g3 
+                   - (9/50)*g4 + (2/55)*g5)
     
     return SolF, SolG
 
@@ -179,9 +187,7 @@ def NovaSubcarpeta(nomSubcarpeta = 'Subfolder'):
     
     Retorna la localització d'aquesta subcarpeta.
     '''
-    
-    import os
-    
+        
     # Per a trobar el dirrectori complet d'aquest arxiu python
     dir_path = os.path.dirname(os.path.realpath(__file__))
     
@@ -226,9 +232,7 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
 
     '''
     
-    import matplotlib.pyplot as plt
-    
-    fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
+    fig, ax = plt.subplots(figsize = (8, 6), dpi = 400)
     
     ax.plot(x, y, c=color)
     ax.tick_params(axis='both', labelsize = 12)
@@ -249,8 +253,9 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
     
     
     if guardar and title:
-        import re
+        
         title = re.sub('[. =-]','_', title.replace('\n', ''))
+        
         if path is None:
             print('Guardant...')
             fig.savefig( title + '.pdf', dpi = 400)
@@ -260,7 +265,7 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
             path = NovaSubcarpeta(path)
             fig.savefig( path + '\\' + title + '.pdf', dpi = 400)
 
-def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue", 
+def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1 = "blue", 
               color2="green", label1 = None, label2 = None, path = None, 
               guardar = False, title = None, line1 = "-", line2 = "-"):
     '''
@@ -301,8 +306,6 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue",
 
     '''
     
-    import matplotlib.pyplot as plt
-    
     fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
     
     ax.plot(x, y1, c = color1, label=label1, linestyle=line1)
@@ -328,8 +331,9 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1="blue",
     
     
     if guardar and title:
-        import re
+        
         title = re.sub('[. =-]','_', title.replace('\n', ''))
+        
         if path is None:
             print('Guardant...')
             fig.savefig( title + '.pdf', dpi = 400)
