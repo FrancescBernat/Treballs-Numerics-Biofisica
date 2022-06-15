@@ -5,6 +5,8 @@ Created on Fri May 27 09:19:53 2022
 @author: Francesc Bernat Bieri Tauler
 """
 
+__all__ = ['dv', 'du', 'NomPath']
+
 import numpy as np
 from Funcions import RK2, Grafic
 from functools import partial
