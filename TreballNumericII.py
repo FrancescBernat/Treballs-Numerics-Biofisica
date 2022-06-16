@@ -10,10 +10,11 @@ from Funcions import RK, RK2, VarisGrafics
 from functools import partial
 
 
-def main(Grafics = True, guardar = False, NomPath = "Resultats_Treball_2"):
+def main(Grafics=True, guardar=False, NomPath="Resultats_Treball_2"):
+    
+    t0, tf, h = 0, 150, 5e-3 # h és el pas d'integració
     
     # Interval de temps
-    t0 = 0;         tf = 150;         h = 5e-3 # h és el pas d'integració
     t = np.arange(t0, int(tf), h)
     
     # Condicions inicials
@@ -32,7 +33,7 @@ def main(Grafics = True, guardar = False, NomPath = "Resultats_Treball_2"):
     
     def dv(t, v, u, Ic, I = I0): return 0.04*v**2 + 5*v + 140 - u + I + Ic
     
-    def du(t, v, u, a, b): return a*(b*v-u)
+    def du(t, v, u, a, b): return a*(b*v - u)
     
     # Assignam les array on guardarem les dades
     u1 = np.zeros(len(t));
@@ -75,43 +76,47 @@ def main(Grafics = True, guardar = False, NomPath = "Resultats_Treball_2"):
                         ### Condició de dispar neurona 1 ### <-- Aixì m'assegur que s'ha tengut en compte a cada passa
                         ####################################
                         if v1[i-1] >= 30:
-                            dr1 = partial(dr, v = v1[i-1])
+                            dr1 = partial(dr, v=v1[i-1])
                             v1[i-1] = c
                             u1[i-1] += d
                             
                         else:
-                            dr1 = partial(dr, v = v1[i-1])
+                            dr1 = partial(dr, v=v1[i-1])
                             
                         ####################################    
                         ### Condició de dispar neurona 2 ###
                         ####################################
                         if v2[i-1] >= 30:
-                            dr2 = partial(dr, v = v2[i-1])
+                            dr2 = partial(dr, v=v2[i-1])
                             v2[i-1] = c
                             u2[i-1] += d
                             
                         else:
-                            dr2 = partial(dr, v = v2[i-1])
+                            dr2 = partial(dr, v=v2[i-1])
                         
                         r12[i] = RK(dr1, i, r12[i-1], h, r12[i-1])
                         r21[i] = RK(dr2, i, r21[i-1], h, r21[i-1])
                         
                         # Definim el tipus de conexió entre neurones 
                         if not I12:
-                            dv1 = partial(dv, Ic = 0)
+                            dv1 = partial(dv, Ic=0)
                         else:
-                            dv1 = partial(dv, Ic = Ic(r21[i-1], v1[i-1], I12))
+                            dv1 = partial(dv, Ic=Ic(r21[i-1], v1[i-1], I12))
                         
-                        dv2 = partial(dv, Ic = Ic(r12[i-1], v2[i-1], I21))
+                        dv2 = partial(dv, Ic=Ic(r12[i-1], v2[i-1], I21))
                         
                         
                         v2[i], u2[i] = RK2(dv2, du, i, v2[i-1], u2[i-1], h)
                         v1[i], u1[i] = RK2(dv1, du, i, v1[i-1], u1[i-1], h)
                     
                     
-                # Aquestes linies de codi són per 
-                vt = abs(v1 - v2); vt = vt[vt != 0];  
-                if sum(vt) == 0: vt = 0
+                # Trobam la diferencia entre els 2 potencials
+                vt = abs(v1 - v2)
+                vt = vt[vt != 0] 
+                
+                if sum(vt) == 0: # Per no tenir problemes amb nan
+                    vt = 0
+                
                 print(f"\n La diferencia mitjana entre el potencial de les dues " \
                       f"neurones, pel cas {titol} i condicions de l'apartat {apartat}, "\
                       f"és de {round(np.mean(vt), 6)} \n")
@@ -139,16 +144,16 @@ def main(Grafics = True, guardar = False, NomPath = "Resultats_Treball_2"):
                         line2 = "-"
     
                     # Representam els resultats                    
-                    VarisGrafics(t, v1, v2, title = titul_v, line2 = line2, 
-                                 color1 = "midnightblue", color2 = "aquamarine", 
-                                 path = NomPath, guardar = guardar, 
-                                 label1 = neurona1[nn], label2 = neurona2[nn])
+                    VarisGrafics(t, v1, v2, title=titul_v, line2=line2, 
+                                 color1="midnightblue", color2="aquamarine", 
+                                 path=NomPath, guardar=guardar, 
+                                 label1=neurona1[nn], label2=neurona2[nn])
                     
-                    VarisGrafics(t, u1, u2, title = titul_u, line2 = line2, 
-                                 ylabel ="u (mV)", color2 ="aquamarine", 
-                                 path = NomPath, guardar = guardar, 
-                                 label1 = neurona1[nn], 
-                                 label2 = neurona2[nn])
+                    VarisGrafics(t, u1, u2, title=titul_u, line2=line2, 
+                                 ylabel="u (mV)", color2="aquamarine", 
+                                 path=NomPath, guardar=guardar, 
+                                 label1=neurona1[nn], 
+                                 label2=neurona2[nn])
 
 
 if __name__ == "__main__": 

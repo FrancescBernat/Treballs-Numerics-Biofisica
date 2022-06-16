@@ -15,8 +15,7 @@ from Funcions import Euler, Grafic
 # Importam de la primera part les funcions i el nom de la subcarpeta
 from TreballNumericI_Part1 import dv, du, NomPath
    
-def main(du = du, dv = dv, NomPath = NomPath, guardarGrafics = False, 
-         Euler = Euler(1)):
+def main(du=du, dv=dv, NomPath=NomPath, guardarGrafics=False, Euler=Euler(1)):
 
     t0 = time() # Per després saber el temps que ha tardat el programa
     
@@ -54,12 +53,12 @@ def main(du = du, dv = dv, NomPath = NomPath, guardarGrafics = False,
                                  [6, 0], [-60, 0], [I1, I2], ["I", "II"]):
         
         # Actualitzam la equació amb els parametres actuals
-        du = partial(du, a = a, b = b)
+        du = partial(du, a=a, b=b)
         
         # Cream array per a guardar els resultats
         Freq = np.zeros(len(I))
         
-        # Definim les condicions inicials
+        # Condicions inicials
         u[0] = 0
         v[0] = v0     
         
@@ -67,7 +66,7 @@ def main(du = du, dv = dv, NomPath = NomPath, guardarGrafics = False,
         n = 0
         for I0 in tqdm(I): # Iteram per cada una de les Intensitats
             
-            dv = partial(dv, I = I0) # Actualitzam la funció amb la intensitat
+            dv = partial(dv, I=I0) # Actualitzam la funció amb la intensitat
             
             u, v = ResolEqu(u, v, t)
                     
@@ -82,9 +81,9 @@ def main(du = du, dv = dv, NomPath = NomPath, guardarGrafics = False,
             n += 1
             
         # Representam la freqüencia en funció de la corrent
-        Grafic(I, Freq, ylabel = r"$\nu$ (KHz)", xlabel = r"I (mV)",
-               title = f"Excitable clase {tipus} \n", 
-               path = NomPath, guardar = guardarGrafics)
+        Grafic(I, Freq, ylabel=r"$\nu$ (KHz)", xlabel=r"I (mV)",
+               title=f"Excitable clase {tipus} \n", 
+               path=NomPath, guardar=guardarGrafics)
     
     print(f"\n Han passat {round( (time()-t0)/60 , 2)} minuts")
     
