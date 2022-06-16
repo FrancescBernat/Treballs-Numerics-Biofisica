@@ -12,7 +12,8 @@ from functools import partial
 
 def main(Grafics=True, guardar=False, NomPath="Resultats_Treball_2"):
     
-    t0, tf, h = 0, 150, 5e-3 # h és el pas d'integració
+    t0, tf = 0, 150
+    h = 5e-3 # h és el pas d'integració
     
     # Interval de temps
     t = np.arange(t0, int(tf), h)
@@ -22,7 +23,6 @@ def main(Grafics=True, guardar=False, NomPath="Resultats_Treball_2"):
     a = 0.02
     
     # Funcions 
-    
     def dr(i, r, v, tau=5.6):
         if v > 30:  
             return -r/tau + 0.5 
@@ -34,6 +34,7 @@ def main(Grafics=True, guardar=False, NomPath="Resultats_Treball_2"):
     def dv(t, v, u, Ic, I = I0): return 0.04*v**2 + 5*v + 140 - u + I + Ic
     
     def du(t, v, u, a, b): return a*(b*v - u)
+    
     
     # Assignam les array on guardarem les dades
     u1 = np.zeros(len(t));
