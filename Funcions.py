@@ -5,8 +5,6 @@ Created on Wed Jun  1 15:37:03 2022
 @author: Francesc Bernat Bieri Tauler
 """
 
-__all__ = ['Euler', 'RK', 'RK2', 'NovaSubcarpeta', 'Grafic', 'VarisGrafics']
-
 import re
 import os
 import matplotlib.pyplot as plt
@@ -70,7 +68,7 @@ def RK(f, x0, y0, h, CI):
 
     Returns
     -------
-    SolO5 : FLOAT
+    Sol : FLOAT
         Solución de 5 orden para el instante t.
 
     '''
@@ -84,17 +82,19 @@ def RK(f, x0, y0, h, CI):
            y0 + ( (3*h) / 32 )*f0 + ( (9*h) / 32)*f1)
     
     f3 = f(x0 + ( (12*h) / 13), 
-           y0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 + ( (7296*h) / 2197 )*f2 )
+           y0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 
+           + ( (7296*h) / 2197 )*f2 )
         
     f4 = f(x0 + h, 
-           y0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2 - ( (845*h) / 4104)*f3)
+           y0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2 
+           - ( (845*h) / 4104)*f3)
     
     f5 = f(x0 + (h/2), 
-           y0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  \
+           y0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4)
         
     
-    Sol = CI + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 \
+    Sol = CI + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 
                     - (9/50)*f4 + (2/55)*f5) # Solució de 5 ordre
         
     return Sol 
@@ -147,31 +147,40 @@ def RK2(f, g, t0, x0, v0, h):
            v0 + ( (3*h) / 32 )*g0 + ( (9*h) / 32)*g1)
     
     f3 = f(t0 + ( (12*h) / 13), 
-           x0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 + ( (7296*h) / 2197 )*f2,
-           v0 + ( (1932*h) / 2197 )*g0 - ( (7200*h) / 2197 )*g1 + ( (7296*h) / 2197 )*g2)
+           x0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 
+           + ( (7296*h) / 2197 )*f2,
+           v0 + ( (1932*h) / 2197 )*g0 - ( (7200*h) / 2197 )*g1 
+           + ( (7296*h) / 2197 )*g2)
     g3 = g(t0 + ( (12*h) / 13), 
-           x0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 + ( (7296*h) / 2197 )*f2,
-           v0 + ( (1932*h) / 2197 )*g0 - ( (7200*h) / 2197 )*g1 + ( (7296*h) / 2197 )*g2)
+           x0 + ( (1932*h) / 2197 )*f0 - ( (7200*h) / 2197 )*f1 
+           + ( (7296*h) / 2197 )*f2,
+           v0 + ( (1932*h) / 2197 )*g0 - ( (7200*h) / 2197 )*g1 
+           + ( (7296*h) / 2197 )*g2)
         
     f4 = f(t0 + h, 
-           x0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2 - ( (845*h) / 4104)*f3,
-           v0 + ( (439*h) / 216 )*g0 - (8*h)*g1 + ( (3680*h) / 513 )*g2 - ( (845*h) / 4104)*g3)
+           x0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2
+           - ( (845*h) / 4104)*f3,
+           v0 + ( (439*h) / 216 )*g0 - (8*h)*g1 + ( (3680*h) / 513 )*g2
+           - ( (845*h) / 4104)*g3)
     g4 = g(t0 + h, 
-           x0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2 - ( (845*h) / 4104)*f3,
-           v0 + ( (439*h) / 216 )*g0 - (8*h)*g1 + ( (3680*h) / 513 )*g2 - ( (845*h) / 4104)*g3)
+           x0 + ( (439*h) / 216 )*f0 - (8*h)*f1 + ( (3680*h) / 513 )*f2
+           - ( (845*h) / 4104)*f3,
+           v0 + ( (439*h) / 216 )*g0 - (8*h)*g1 + ( (3680*h) / 513 )*g2
+           - ( (845*h) / 4104)*g3)
     
     
     f5 = f(t0 + (h/2), 
-           x0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  \
+           x0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4,
-           v0 - ( (8*h) / 27 )*g0 + (2*h)*g1 - ( (3544*h) / 2565 )*g2  \
+           v0 - ( (8*h) / 27 )*g0 + (2*h)*g1 - ( (3544*h) / 2565 )*g2  
            + ( (1859*h) / 4104)*g3 - ((11*h)/40)*g4)
     g5 = g(t0 + (h/2), 
-           x0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  \
+           x0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4,
-           v0 - ( (8*h) / 27 )*g0 + (2*h)*g1 - ( (3544*h) / 2565 )*g2  \
+           v0 - ( (8*h) / 27 )*g0 + (2*h)*g1 - ( (3544*h) / 2565 )*g2  
            + ( (1859*h) / 4104)*g3 - ((11*h)/40)*g4)
-        
+       
+    
     SolF = x0 + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 
                    - (9/50)*f4 + (2/55)*f5)
     
@@ -197,8 +206,8 @@ def NovaSubcarpeta(nomSubcarpeta = 'Subfolder'):
     # Retornam el directori complet de la nova subcarpeta
     return os.path.realpath(nomSubcarpeta)
 
-def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue", 
-              path = None, guardar = False, title = None):
+def Grafic(x, y, ylabel="V (mV)", xlabel="t (ms)", color="blue", 
+              path=None, guardar=False, title=None):
     '''
     Funció per a representar un únic gràfic.
 
@@ -232,16 +241,16 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
 
     '''
     
-    fig, ax = plt.subplots(figsize = (8, 6), dpi = 400)
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
     
     ax.plot(x, y, c=color)
-    ax.tick_params(axis='both', labelsize = 12)
+    ax.tick_params(axis='both', labelsize=12)
     
-    ax.set_ylabel(ylabel, fontsize = 14)
-    ax.set_xlabel(xlabel, fontsize = 14)
+    ax.set_ylabel(ylabel, fontsize=14)
+    ax.set_xlabel(xlabel, fontsize=14)
     
     if title and not guardar:
-        ax.set_title(title, fontsize = 20)
+        ax.set_title(title, fontsize=20)
     
     ax.yaxis.get_ticklocs(minor=True)
     ax.yaxis.set_ticks_position('both'); 
@@ -258,16 +267,16 @@ def Grafic(x, y, ylabel = "V (mV)", xlabel = "t (ms)", color="blue",
         
         if path is None:
             print('Guardant...')
-            fig.savefig( title + '.pdf', dpi = 400)
+            fig.savefig( title + '.pdf', dpi=400)
             
         else:
             print('Guardant a directori especificat!')
             path = NovaSubcarpeta(path)
-            fig.savefig( path + '\\' + title + '.pdf', dpi = 400)
+            fig.savefig( path + '\\' + title + '.pdf', dpi=400)
 
-def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1 = "blue", 
-              color2="green", label1 = None, label2 = None, path = None, 
-              guardar = False, title = None, line1 = "-", line2 = "-"):
+def VarisGrafics(x, y1, y2, ylabel="V (mV)", xlabel="t (ms)", color1="blue", 
+              color2="green", label1=None, label2=None, path=None, 
+              guardar=False, title=None, line1="-", line2="-"):
     '''
     Funció per a representar dues funcions en un mateix gràfic.
 
@@ -310,13 +319,13 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1 = "blue
     
     ax.plot(x, y1, c = color1, label=label1, linestyle=line1)
     ax.plot(x, y2, c = color2, label=label2, linestyle=line2)
-    ax.tick_params(axis='both', labelsize = 12)
+    ax.tick_params(axis='both', labelsize=12)
     
-    ax.set_ylabel(ylabel, fontsize = 14)
-    ax.set_xlabel(xlabel, fontsize = 14)
+    ax.set_ylabel(ylabel, fontsize=14)
+    ax.set_xlabel(xlabel, fontsize=14)
     
     if title and not guardar:
-        ax.set_title(title, fontsize = 20)
+        ax.set_title(title, fontsize=20)
     
     ax.yaxis.get_ticklocs(minor=True)
     ax.yaxis.set_ticks_position('both'); 
@@ -336,9 +345,9 @@ def VarisGrafics(x, y1, y2, ylabel = "V (mV)", xlabel = "t (ms)", color1 = "blue
         
         if path is None:
             print('Guardant...')
-            fig.savefig( title + '.pdf', dpi = 400)
+            fig.savefig( title + '.pdf', dpi=400)
             
         else:
             print('Guardant a directori especificat!')
             path = NovaSubcarpeta(path)
-            fig.savefig( path + '\\' + title + '.pdf', dpi = 400)
+            fig.savefig( path + '\\' + title + '.pdf', dpi=400)

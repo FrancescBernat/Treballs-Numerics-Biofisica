@@ -10,7 +10,7 @@ from functools import partial
 import matplotlib.pyplot as plt
 from Funcions import RK2, NovaSubcarpeta
 
-def main(guardarGrafics = False ):
+def main(guardarGrafics=False):
     
     # Temps inicial, final i pas de temps
     t0, tf, h = 1, 50, 0.005
@@ -18,8 +18,8 @@ def main(guardarGrafics = False ):
     t = np.arange(t0, tf, h)
     
     # Equacions de Lotka-Volterra
-    def dN(t, N, P, b, a = 1): return N*(a-b*P)
-    def dP(t, N, P, c, d = 1): return P*(c*N-d)
+    def dN(t, N, P, b, a=1): return N*(a - b*P)
+    def dP(t, N, P, c, d=1): return P*(c*N - d)
     
     N = np.zeros(len(t))
     P = N.copy()  
@@ -45,7 +45,7 @@ def main(guardarGrafics = False ):
             
         # Grafiques de evolució temporal
         
-        fig, ax = plt.subplots(figsize=(8, 6), dpi = 400)
+        fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
         
         ax.plot(t, P, label='Depredador', color ='seagreen')
         ax.plot(t, N, label='Pressa', color ='skyblue')
@@ -54,7 +54,7 @@ def main(guardarGrafics = False ):
                title=f"Modelo depredador presa\n\n b = {b}, c = {c}")
         ax.legend(loc='upper left')
         
-        ax.yaxis.get_ticklocs(minor = True)
+        ax.yaxis.get_ticklocs(minor=True)
         ax.yaxis.set_ticks_position('both')
         ax.xaxis.set_ticks_position('both')
         
@@ -67,15 +67,15 @@ def main(guardarGrafics = False ):
             path = NovaSubcarpeta("Resultats_Treball_3")
             
             # Definim el nom per guardar la gràfica i guardam
-            nom = f"ModelDepPres_{b}_{c}".replace('.', '_')
-            fig.savefig( path + '\\' + nom + ".pdf", dpi = 400)
+            nom=f"ModelDepPres_{b}_{c}".replace('.', '_')
+            fig.savefig( path + '\\' + nom + ".pdf", dpi=400)
             
         
         ######################################################################
         
             
         # Grafiques on representam la evolució de les poblacions entre si
-        fig, ax = plt.subplots(figsize = (8, 6), dpi = 400)
+        fig, ax = plt.subplots(figsize = (8, 6), dpi=400)
         
         ax.plot(N, P, color='darkblue')
         
@@ -92,7 +92,7 @@ def main(guardarGrafics = False ):
         
         if guardarGrafics:
             nom += "_PreVsDep"
-            fig.savefig( path + '\\' + nom + ".pdf", dpi = 400)
+            fig.savefig( path + '\\' + nom + ".pdf", dpi=400)
             
 if __name__ == "__main__": 
     main()

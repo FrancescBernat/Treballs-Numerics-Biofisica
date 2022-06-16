@@ -41,17 +41,16 @@ def main(dv, du, guardar = False):
     v[0] = 0
     
     # Assignam un valor de I constant
-    dv = partial(dv, I = I0) 
+    dv = partial(dv, I=I0) 
     
-    # Preparam un colormap per obtenir gràfiques de colors diferents
+    # Colormap per obtenir gràfiques de colors diferents
     colors = plt.cm.jet(np.linspace(0,1,6))
     
     l = 0 # Per obtenir un color diferent
     
     for b, c, d in zip(B, C, D): # Iteram per cada tipus diferent de neurona
         
-        # Assignam valors constants per a la funció per a aquesta integració
-        du = partial(du, a = a, b = b) 
+        du = partial(du, a=a, b=b) 
         
         for i in range(len(t)):
             
