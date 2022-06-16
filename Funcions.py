@@ -92,10 +92,11 @@ def RK(f, x0, y0, h, CI):
     f5 = f(x0 + (h/2), 
            y0 - ( (8*h) / 27 )*f0 + (2*h)*f1 - ( (3544*h) / 2565 )*f2  
            + ( (1859*h) / 4104)*f3 - ((11*h)/40)*f4)
-        
+    
     
     Sol = CI + h*( (16/135)*f0 + (6656/12825)*f2 + (28561/56430)*f3 
                     - (9/50)*f4 + (2/55)*f5) # Solució de 5 ordre
+
         
     return Sol 
 
@@ -350,4 +351,5 @@ def VarisGrafics(x, y1, y2, ylabel="V (mV)", xlabel="t (ms)", color1="blue",
         else:
             print('Guardant a directori especificat!')
             path = NovaSubcarpeta(path)
+
             fig.savefig( path + '\\' + title + '.pdf', dpi=400)
