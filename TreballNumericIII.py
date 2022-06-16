@@ -47,10 +47,10 @@ def main(guardarGrafics=False):
         
         fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
         
-        ax.plot(t, P, label='Depredador', color ='seagreen')
-        ax.plot(t, N, label='Pressa', color ='skyblue')
+        ax.plot(t, P, label='Depredador', color='seagreen')
+        ax.plot(t, N, label='Pressa', color='skyblue')
         
-        ax.set(ylabel=r"Nº d'individus", xlabel ="Temps", 
+        ax.set(ylabel=r"Nº d'individus", xlabel="Temps", 
                title=f"Modelo depredador presa\n\n b = {b}, c = {c}")
         ax.legend(loc='upper left')
         
@@ -75,7 +75,7 @@ def main(guardarGrafics=False):
         
             
         # Grafiques on representam la evolució de les poblacions entre si
-        fig, ax = plt.subplots(figsize = (8, 6), dpi=400)
+        fig, ax = plt.subplots(figsize=(8, 6), dpi=400)
         
         ax.plot(N, P, color='darkblue')
         

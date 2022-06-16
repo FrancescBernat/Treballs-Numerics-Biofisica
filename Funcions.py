@@ -190,7 +190,7 @@ def RK2(f, g, t0, x0, v0, h):
     
     return SolF, SolG
 
-def NovaSubcarpeta(nomSubcarpeta = 'Subfolder'):
+def NovaSubcarpeta(nomSubcarpeta='Subfolder'):
     '''
     Aquesta funció generarà una subcarpeta del nom especificat
     en cas de que no existeixi.
@@ -344,7 +344,7 @@ def VarisGrafics(x, y1, y2, ylabel="V (mV)", xlabel="t (ms)", color1="blue",
         
         title = re.sub('[. =-]','_', title.replace('\n', ''))
         
-        if path is None:
+        if not path:
             print('Guardant...')
             fig.savefig( title + '.pdf', dpi=400)
             

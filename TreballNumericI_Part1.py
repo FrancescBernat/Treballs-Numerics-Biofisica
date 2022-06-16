@@ -19,7 +19,7 @@ NomPath = "Resultats_Treball_1"
 def dv(t, v, u, I): return 0.04*v**2 + 5*v + 140 - u + I
 def du(t, v, u, a, b): return a*(b*v - u)
     
-def main(dv, du, guardar = False):
+def main(dv, du, guardar=False):
     
     # Definim l'interval de temps
     t0, tf = 0, 180
@@ -28,13 +28,15 @@ def main(dv, du, guardar = False):
     
     I0 = 15
     
+    # Constants A, B, C i D del model
     a = 0.02
     B = [0.2, 0.2, 0.25]
     C = [-50, -55, -65]
     D = [2, 4, 2]
     
-    # Definim les array's on guardarem el resultat
-    u = np.zeros(len(t)); v = u.copy()
+    # Array's on guardarem el resultat
+    u = np.zeros(len(t))
+    v = u.copy()
     
     # Condicions inicials
     u[0] = 2
